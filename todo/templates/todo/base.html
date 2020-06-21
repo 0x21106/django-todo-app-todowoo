@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'todo/style.css' %}">
+    <title>Todowoo</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand mr-5" href="{% url 'home' %}">Todowoo</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul
+          class="navbar-nav {% if user.is_authenticated %} mr-auto {% else %} ml-auto {% endif %}"
+        >
+          <li class="nav-item dropdown">
+            {% if user.is_authenticated %}
+            <a
+              class="nav-link font-weight-normal dropdown-toggle"
+              href=""
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+            >
+              Todos
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% url 'currentTodos' as url %}
+              <a
+                class="dropdown-item {% if url == request.path %}disabled{% endif %}"
+                href="{% url 'currentTodos' %}"
+                >Current Todos</a
+              >
+              {% url 'completedTodos' as url %}
+              <a
+                class="dropdown-item {% if url == request.path %}disabled{% endif %}"
+                href="{% url 'completedTodos' %}"
+                >Completed Todos</a
+              >
+              {% url 'createTodo' as url %}
+              <a
+                class="dropdown-item {% if url == request.path %}disabled{% endif %}"
+                href="{% url 'createTodo' %}"
+                >Create Todos</a
+              >
+            </div>
+          </li>
+        </ul>
+        <form action="{% url 'logoutUser' %}" method="POST" class="py-2">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-warning">Logout</button>
+        </form>
+        {% else %}
+        <div class="row justify-content-end px-3 py-2">
+          <a href="{% url 'signupUser' %}" class="btn btn-primary mx-2"
+            >Sign up</a
+          >
+          <a href="{% url 'loginUser' %}" class="btn btn-danger mx-2">Login</a>
+        </div>
+        {% endif %}
+      </div>
+    </nav>
+    <!-- {% if user.is_authenticated %}
+
+    Logged In as {{ user.username }}
+        <form action="{% url 'logoutUser' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>    
+    {% else %}
+        <a href="{% url 'signupUser' %}">Sign up</a>
+        <a href="{% url 'loginUser' %}">Login</a>
+    {% endif %} -->
+    {% block content %}{% endblock %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

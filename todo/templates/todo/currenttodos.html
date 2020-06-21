@@ -1,0 +1,38 @@
+{% extends 'todo/base.html' %} {% block content %}
+<div class="container">
+  <h3 class="h3 mb-5">Current Todos</h3>
+
+  <div class="todo-container">
+    {% for todo in todos %}
+    <div
+      class="card"
+      style="width: 18rem; border-width:5px; border-color:{{ todo.materiality.color }}"
+    >
+      <div class="card-body">
+        <h5 class="card-title">{{ todo.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ todo.created }}</h6>
+        {% if card.note %}
+        <p class="card-text">{{ card.note }}</p>
+        {% endif %}
+        <div class="row justify-content-start">
+          <a
+            href="{% url 'viewTodo' todo.pk %}"
+            class="btn btn-primary btn-sm mt-4 ml-2"
+            >Update</a
+          >
+          <form
+            action="{% url 'deleteTodo' todo.pk %}"
+            method="POST"
+            class="mx-2"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm mt-4">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% endblock %}
+  </div>
+</div>

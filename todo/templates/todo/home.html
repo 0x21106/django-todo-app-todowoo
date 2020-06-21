@@ -1,0 +1,11 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="fixed_center">
+    {% if not user.is_authenticated %}
+        <h1 class="h1 text-justify">Selam! Ben todowoo :)<br>Daha kayıt olmadın mı? <br> <a href="{% url 'signupUser' %}" class="text-danger">Buradan</a> hemen kayıt ola bilirsin</h1>
+    {% else %}
+        <h1 class="h1">Merhaba {{ user.username }} :)</h1>
+        <h5 class="h5"><a href="{% url 'currentTodos' %}" class="text-danger">Buradan</a> todo listesine gide bilirsin.</h5>
+    {% endif %}
+</div>
+{% endblock %}
